@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 import edu.cnm.deepdive.data_model_ex.model.entity.StudentContact.RelationshipType;
 
@@ -21,8 +22,7 @@ import edu.cnm.deepdive.data_model_ex.model.entity.StudentContact.RelationshipTy
         @Index(value = "relationship_type")
 )
 
-public class StudentContact {
-  //TODO ask nick
+  public class StudentContact {
   @PrimaryKey
   @ColumnInfo(name = "student_contact_id")
   private long id;
@@ -38,14 +38,9 @@ public class StudentContact {
 
 
   @ColumnInfo(name = "relationship_type")
-  public Enum relationship;
+  private RelationshipType relationshipType;
 
-  public enum RelationshipType {
-    PARENT,
-    GUARDIAN,
-    SIBLING,
-    OTHER
-  }
+
 
   public long getId() {
     return id;
@@ -79,11 +74,27 @@ public class StudentContact {
     this.primary = primary;
   }
 
-  public Enum getRelationship() {
-    return relationship;
+  public RelationshipType getRelationshipType() {
+    return relationshipType;
   }
 
-  public void setRelationship(Enum relationship) {
-    this.relationship = relationship;
+  public void setRelationshipType(
+      RelationshipType relationshipType) {
+    this.relationshipType = relationshipType;
+  }
+  @TypeConverter
+  public String enumToString(Enum value) {
+    return (value!= null ) ? value.toString(): null;
+  }
+  @TypeConverter
+  public RelationshipType stringToRelationshipType(String name) {
+    return (name != null) ? RelationshipType.valueOf(name) : null;
+  }
+
+  public enum RelationshipType {
+    PARENT,
+    GUARDIAN,
+    SIBLING,
+    OTHER
   }
 }

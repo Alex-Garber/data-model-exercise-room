@@ -6,6 +6,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 import java.time.LocalDate;
 
 @Entity(indices = {
@@ -37,10 +39,12 @@ public class Student {
   @ColumnInfo(name = "middle_name")
   private String middleName;
 
+  @TypeConverters(LocalDate.class)
   @NonNull
   @ColumnInfo(name = "enrolled")
   private LocalDate enrolled;
 
+  @TypeConverters(LocalDate.class)
   @Nullable
   @ColumnInfo(name = "disenrolld")
   private LocalDate disenrolled;
